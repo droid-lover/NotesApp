@@ -5,8 +5,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.vs.R
-import com.vs.veronica.views.fragments.NotesListFragment
+import com.vs.views.fragments.NotesListFragment
 import kotlinx.android.synthetic.main.activity_home.*
+
 
 /**
  * Created By Sachin
@@ -19,8 +20,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
         setHomeFragment()
-        fab.setOnClickListener { view ->
-        }
+
     }
 
 

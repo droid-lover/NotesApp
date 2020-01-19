@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Notes App</string>
     <string name="action_settings">Settings</string>
+    <string name="no_data">No Items in Database.\Please Add</string>
+    <string name="note_title">Note Title</string>
+    <string name="note_desc">Note Description</string>
+    <string name="add_note">Add Note</string>
+    <string name="save_note">Save</string>
 </resources>

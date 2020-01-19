@@ -9,12 +9,12 @@ import androidx.room.PrimaryKey
  * Created By Sachin
  */
 
-@Entity(indices = arrayOf(Index(value = ["name", "color"]/*, unique = true*/)))
+@Entity(indices = arrayOf(Index(value = ["title", "description"]/*, unique = true*/)))
 data class Note(
-    @ColumnInfo
-    var name: String,
-    @ColumnInfo
-    var description: String
+        @ColumnInfo
+        var title: String,
+        @ColumnInfo
+        var description: String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
