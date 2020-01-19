@@ -1,16 +1,15 @@
 package com.vs.views.activities
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.vs.R
+import com.vs.veronica.views.fragments.NotesListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
-import kotlinx.android.synthetic.main.activity_main.*
-
 class HomeActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +22,9 @@ class HomeActivity : AppCompatActivity() {
 
 
     private fun setHomeFragment() {
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.rlContainer, HomeFragment())
-//            .commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.rlContainer, NotesListFragment())
+            .commitAllowingStateLoss()
     }
 
 
