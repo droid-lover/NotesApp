@@ -29,12 +29,12 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        compositeDisposable.add(Observable.timer(1500, TimeUnit.MILLISECONDS)
+        compositeDisposable.add(Observable.timer(2500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     tvAppName.visibility = View.VISIBLE
-//                    tvAppName.startAnimation(AnimationUtils.loadAnimation(this, R.anim.bounce_anim))
+                    tvAppName.startAnimation(AnimationUtils.loadAnimation(this, R.anim.bounce_anim))
                     startNextActivity()
                 })
 
@@ -48,6 +48,7 @@ class SplashScreenActivity : AppCompatActivity() {
                     startActivity(Intent(this@SplashScreenActivity, HomeActivity::class.java).apply {
                         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     })
+                    overridePendingTransition(R.anim.activity_in,R.anim.activity_out)
                 })
     }
 
