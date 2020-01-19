@@ -5,6 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.rentomojo.repository.Repo
 import com.vs.models.Note
 
+/**
+ * Created By Sachin
+ */
 class NotesRepo : Repo() {
 
     private val _notes = MutableLiveData<Result<Note>>()
@@ -13,8 +16,6 @@ class NotesRepo : Repo() {
 
     fun getNotes() {
         _showProgressBar.postValue(true)
-
-        //TODO notes logic
 
     }
 

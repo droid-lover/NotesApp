@@ -8,6 +8,9 @@ import com.vs.R
 import com.vs.veronica.views.fragments.NotesListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
+/**
+ * Created By Sachin
+ */
 class HomeActivity : AppCompatActivity() {
 
 
@@ -23,8 +26,8 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setHomeFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.rlContainer, NotesListFragment())
-            .commitAllowingStateLoss()
+                .replace(R.id.rlContainer, NotesListFragment())
+                .commitAllowingStateLoss()
     }
 
 
