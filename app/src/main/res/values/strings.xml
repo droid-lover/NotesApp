@@ -6,4 +6,6 @@
     <string name="note_desc">Note Description</string>
     <string name="add_note">Add Note</string>
     <string name="save_note">Save</string>
+    <string name="go_to_notes">Go To Notes List</string>
+    <string name="creation_time">creation time</string>
 </resources>

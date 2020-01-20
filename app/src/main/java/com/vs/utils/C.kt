@@ -6,8 +6,11 @@ package com.vs.veronica.utils
 class C {
     companion object {
 
-        val themoviedbAPI_KEY ="a1ea1d073b0b00fae1810406e59f4991"
-        val ENGLISH ="en-US"
-        val DATA="data"
+        val ADD = "ADD"
+        val DELETE = "DELETE"
+        val NOTE_DETAILS = "NoteDetails"
+        val ENGLISH = "en-US"
+        val DATA = "data"
+        val NOTE = "note"
     }
 }

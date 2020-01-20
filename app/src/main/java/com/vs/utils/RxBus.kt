@@ -1,5 +1,6 @@
 package com.vs.utils
 
+import com.vs.models.ActionPerformed
 import com.vs.models.Note
 import io.reactivex.subjects.PublishSubject
 
@@ -8,5 +9,7 @@ import io.reactivex.subjects.PublishSubject
  */
 object RxBus {
 
-    val addedNote = PublishSubject.create<Note>()
+//    val actionPerformed = PublishSubject.create<Note>()
+    val actionPerformed = PublishSubject.create<ActionPerformed>()
+    val showActionDailog = PublishSubject.create<Note>()
 }
