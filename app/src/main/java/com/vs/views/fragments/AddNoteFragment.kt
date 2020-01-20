@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.vs.R
+import com.vs.models.Note
+import com.vs.utils.RxBus
+import com.vs.utils.Utils
 import com.vs.viewmodels.NotesViewModel
 import kotlinx.android.synthetic.main.fragment_add_note.*
 
@@ -34,6 +37,11 @@ class AddNoteFragment : Fragment() {
     private fun saveNote() {
         val title = noteTitleTextInputEditText?.text.toString()
         val desc = noteDescTextInputEditText?.text.toString()
+        if (title.isEmpty() || desc.isEmpty()) {
+            Utils.showToastMessage("Please enter required details!")
+            return
+        }
+//        RxBus.addedNote.onNext(Note(title, desc))
         activity?.also { notesViewModel.addNote(it, title, desc) }
     }
 

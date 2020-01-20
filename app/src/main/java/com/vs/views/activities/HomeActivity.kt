@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.vs.R
+import com.vs.viewmodels.NotesViewModel
 import com.vs.views.fragments.NotesListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -14,19 +16,15 @@ import kotlinx.android.synthetic.main.activity_home.*
  */
 class HomeActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
         setHomeFragment()
-
     }
 
-
     private fun setHomeFragment() {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.rlContainer, NotesListFragment())
+        supportFragmentManager.beginTransaction().replace(R.id.rlContainer, NotesListFragment())
                 .commitAllowingStateLoss()
     }
 

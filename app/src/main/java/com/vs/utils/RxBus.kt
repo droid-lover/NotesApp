@@ -1,11 +1,12 @@
-package com.vs.veronica.utils
+package com.vs.utils
 
-import io.reactivex.subjects.BehaviorSubject
+import com.vs.models.Note
+import io.reactivex.subjects.PublishSubject
 
 /**
  * Created by Sachin
  */
 object RxBus {
 
-    val showBackButton = BehaviorSubject.create<Boolean>()
+    val addedNote = PublishSubject.create<Note>()
 }

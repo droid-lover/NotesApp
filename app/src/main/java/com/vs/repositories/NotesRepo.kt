@@ -1,6 +1,7 @@
 package com.vs.repositories
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rentomojo.repository.Repo
@@ -9,6 +10,7 @@ import com.vs.models.Note
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import com.vs.utils.Result
+import com.vs.utils.RxBus
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -21,13 +23,15 @@ class NotesRepo : Repo() {
 
 
     fun addNote(context: Context, title: String, desc: String) {
-        _showProgressBar.postValue(true)
         disposables.add(Observable.fromCallable {
-            NotesDatabase.getDatabase(context).notesDao().insert(Note(title, desc))
+            Observable.just(NotesDatabase.getDatabase(context).notesDao().insert(Note(title, desc)))
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    _showProgressBar.postValue(false)
+                    it.subscribe {
+                    RxBus.addedNote.onNext(Note(title,desc))
+                    }
+
                 })
     }
 
