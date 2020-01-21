@@ -21,7 +21,7 @@ interface NotesDao {
     @Query("UPDATE Note SET title = :title,description=:description,time=:time WHERE id = :id")
     fun update(id: Int, title: String,description:String,time:String): Int
 
-    @Query("Select * from Note")
+    @Query("Select * from Note ORDER BY Note.time DESC")
     fun getAllNotes(): LiveData<List<Note>>
 
 }
