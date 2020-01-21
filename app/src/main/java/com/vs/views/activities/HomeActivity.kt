@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.vs.R
 import com.vs.models.Note
+import com.vs.utils.Utils
 import com.vs.veronica.utils.C
 import com.vs.views.fragments.NotesListFragment
 import kotlinx.android.synthetic.main.activity_home.*
@@ -37,6 +38,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item!!.itemId == android.R.id.home) {
             onBackPressed()
+        }else if (item!!.itemId == R.id.action_settings) {
+            Utils.showToastMessage("Crafted by ~ Sachin Rajput")
         }
         return super.onOptionsItemSelected(item)
     }

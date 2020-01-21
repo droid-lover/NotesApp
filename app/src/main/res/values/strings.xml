@@ -8,4 +8,5 @@
     <string name="save_note">Save</string>
     <string name="go_to_notes">Go To Notes List</string>
     <string name="creation_time">creation time</string>
+    <string name="notes_details">Note Details :</string>
 </resources>

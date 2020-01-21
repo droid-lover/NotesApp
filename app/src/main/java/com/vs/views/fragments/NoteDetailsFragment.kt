@@ -48,6 +48,6 @@ class NoteDetailsFragment : Fragment() {
     }
 
     private fun showNotesDetails(note: Note) {
-        tvNotesCreatedAt.text = note.title +"\n\n"+ note.description
+        tvNotesDetailsValue.text = "Title: "+note.title +"\n\n"+ "Description: "+note.description +"\n\n"+ "Timestamp: "+note.time
     }
 }

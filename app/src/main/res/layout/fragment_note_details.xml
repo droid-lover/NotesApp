@@ -9,15 +9,24 @@
     tools:context=".views.fragments.NotesListFragment">
 
 
-
     <TextView
-        android:id="@+id/tvNotesCreatedAt"
+        android:id="@+id/tvNoteDetailsHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/creation_time"
+        android:text="@string/notes_details"
+        android:padding="20dp"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/tvNotesDetailsValue"
+        android:layout_width="wrap_content"
+        android:padding="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNoteDetailsHeader"
+        tools:text="@string/creation_time"
         android:textColor="@color/colorPrimaryText"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
 
     <Button

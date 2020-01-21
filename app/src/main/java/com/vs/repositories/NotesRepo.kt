@@ -1,25 +1,19 @@
 package com.vs.repositories
 
 import android.content.Context
-import android.os.AsyncTask
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rentomojo.repository.Repo
 import com.vs.app.NotesApp
-import com.vs.dao.NotesDao
 import com.vs.database.NotesDatabase
-import com.vs.models.ActionPerformed
 import com.vs.models.Note
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import com.vs.utils.Result
-import com.vs.utils.RxBus
 import com.vs.utils.Utils
-import com.vs.veronica.utils.C
 import io.reactivex.schedulers.Schedulers
-import java.lang.ref.WeakReference
+import java.util.*
 
 /**
  * Created By Sachin
@@ -28,24 +22,19 @@ class NotesRepo : Repo() {
 
     var notes: LiveData<List<Note>>? = NotesDatabase.getDatabase(NotesApp.instance!!).notesDao().getAllNotes()
 
-    private val _noteAdded = MutableLiveData<Result<Note>>()
-    val noteAdded: LiveData<Result<Note>> = _noteAdded
+    private val _noteAddedOrUpdated = MutableLiveData<Result<Note>>()
+    val noteAddedOrUpdated: LiveData<Result<Note>> = _noteAddedOrUpdated
 
 
-    fun addNote(context: Context, title: String, desc: String) {
+    fun addNote(context: Context, title: String, desc: String, time: String) {
         _showProgressBar.postValue(true)
         disposables.add(Observable.fromCallable {
-            Observable.just(NotesDatabase.getDatabase(context).notesDao().insert(Note(title, desc)))
+            Observable.just(NotesDatabase.getDatabase(context).notesDao().insert(Note(title, desc, time)))
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     it.subscribe {
-                        val actionPerformed = ActionPerformed().apply {
-                            action = C.ADD
-                            note = Note(title, desc)
-                        }
-                        RxBus.actionPerformed.onNext(actionPerformed)
-                        _noteAdded.postValue(Result.Success(Note(title, desc)))
+                        _noteAddedOrUpdated.postValue(Result.Success(Note(title, desc,time)))
                         _showProgressBar.postValue(false)
                     }
 
@@ -66,17 +55,17 @@ class NotesRepo : Repo() {
     }
 
 
-    fun updateNote(context: Context, noteData: Note) {
+    fun updateNote(context: Context, noteData: Note,time:String) {
         Log.d("ComingHere", "Inside_updateNote ${noteData.id.toString() + " " + noteData.title + " " + noteData.description}")
         _showProgressBar.postValue(true)
         disposables.add(Observable.fromCallable {
             NotesDatabase.getDatabase(context).notesDao()
-                    .update(noteData.id, noteData.title, noteData.description)
+                    .update(noteData.id, noteData.title, noteData.description,time)
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
+                    _noteAddedOrUpdated.postValue(Result.Success(noteData))
                     _showProgressBar.postValue(false)
-
                 })
 
     }

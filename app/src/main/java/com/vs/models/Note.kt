@@ -15,7 +15,9 @@ data class Note(
         @ColumnInfo
         var title: String,
         @ColumnInfo
-        var description: String
+        var description: String,
+        @ColumnInfo
+        var time: String
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

@@ -59,19 +59,18 @@ class AddNoteFragment : Fragment() {
         }
 
         if (text == "Add")
-            activity?.also { notesViewModel.addNote(it, title, desc) }
+            activity?.also { notesViewModel.addNote(it, title, desc,Utils.getTime()) }
         else if (text == "Update")
             noteData?.also {
                 it.title = title
                 it.description = desc
-                activity?.also { context -> notesViewModel.updateNote(context, it) }
+                activity?.also { context -> notesViewModel.updateNote(context, it,Utils.getTime()) }
             }
-
 
     }
 
     private fun observeViewModelChanges() {
-        notesViewModel.noteAdded.observe(this, androidx.lifecycle.Observer {
+        notesViewModel.noteAddedOrUpdated.observe(this, androidx.lifecycle.Observer {
             when (it) {
                 is Result.Success<Note> -> {
                     goToNoteDetailsScreen(it.data)

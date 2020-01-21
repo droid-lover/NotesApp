@@ -18,8 +18,8 @@ interface NotesDao {
     @Query("DELETE FROM Note WHERE `id` =:id")
     fun delete(id: Int)
 
-    @Query("UPDATE Note SET title = :title,description=:description WHERE id = :id")
-    fun update(id: Int, title: String,description:String): Int
+    @Query("UPDATE Note SET title = :title,description=:description,time=:time WHERE id = :id")
+    fun update(id: Int, title: String,description:String,time:String): Int
 
     @Query("Select * from Note")
     fun getAllNotes(): LiveData<List<Note>>

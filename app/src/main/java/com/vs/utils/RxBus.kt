@@ -8,7 +8,5 @@ import io.reactivex.subjects.PublishSubject
  * Created by Sachin
  */
 object RxBus {
-
-    val actionPerformed = PublishSubject.create<ActionPerformed>()
     val showActionDailog = PublishSubject.create<Note>()
 }

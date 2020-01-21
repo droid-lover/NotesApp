@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.vs.R
 import com.vs.app.NotesApp
+import java.util.*
 
 /**
  * Created by Sachin
@@ -35,7 +36,7 @@ object Utils {
             if (alertDialog == null) {
                 val builder = AlertDialog.Builder(context)
                 val view = LayoutInflater.from(context)
-                    .inflate(R.layout.layout_processing_dialog, null, false)
+                        .inflate(R.layout.layout_processing_dialog, null, false)
                 (view.findViewById<View>(R.id.tv_processing_message) as TextView).text = message
                 builder.setView(view)
                 alertDialog = builder.create()
@@ -68,6 +69,10 @@ object Utils {
             sToast = Toast.makeText(NotesApp.instance, strMessage, Toast.LENGTH_SHORT)
             sToast?.show()
         }
+    }
+
+    fun getTime(): String {
+        return Calendar.getInstance().time.toString()
     }
 
 
