@@ -10,7 +10,7 @@ import java.io.Serializable
  * Created By Sachin
  */
 
-@Entity(indices = arrayOf(Index(value = ["title", "description"]/*, unique = true*/)))
+@Entity(indices = arrayOf(Index(value = ["title", "description"], unique = false)))
 data class Note(
         @ColumnInfo
         var title: String,

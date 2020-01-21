@@ -22,6 +22,14 @@ import kotlinx.android.synthetic.main.fragment_add_note.*
 class AddNoteFragment : Fragment() {
 
     private val notesViewModel by lazy { ViewModelProviders.of(this).get(NotesViewModel::class.java) }
+    private var noteData: Note? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.also {
+            noteData = it.getSerializable(C.NOTE) as Note
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_note, container, false)
@@ -30,19 +38,36 @@ class AddNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModelChanges()
+        if (noteData != null) setNote(noteData!!) else btnSaveNote?.text = "Add"
         btnSaveNote.setOnClickListener {
-            saveNote()
+            saveOrUpdateNote(btnSaveNote.text)
         }
     }
 
-    private fun saveNote() {
+    private fun setNote(note: Note) {
+        noteTitleTextInputEditText?.setText(note.title)
+        noteDescTextInputEditText?.setText(note.description)
+        btnSaveNote?.text = "Update"
+    }
+
+    private fun saveOrUpdateNote(text: CharSequence) {
         val title = noteTitleTextInputEditText?.text.toString()
         val desc = noteDescTextInputEditText?.text.toString()
         if (title.isEmpty() || desc.isEmpty()) {
             Utils.showToastMessage("Please enter required details!")
             return
         }
-        activity?.also { notesViewModel.addNote(it, title, desc) }
+
+        if (text == "Add")
+            activity?.also { notesViewModel.addNote(it, title, desc) }
+        else if (text == "Update")
+            noteData?.also {
+                it.title = title
+                it.description = desc
+                activity?.also { context -> notesViewModel.updateNote(context, it) }
+            }
+
+
     }
 
     private fun observeViewModelChanges() {
@@ -66,8 +91,8 @@ class AddNoteFragment : Fragment() {
 
         activity?.also {
             it.supportFragmentManager.beginTransaction()
-                .add(R.id.rlContainer, noteDetailsFragment,C.NOTE_DETAILS).addToBackStack("NoteDetailsFragment")
-                .commitAllowingStateLoss()
+                    .add(R.id.rlContainer, noteDetailsFragment, C.NOTE_DETAILS).addToBackStack("NoteDetailsFragment")
+                    .commitAllowingStateLoss()
         }
     }
 

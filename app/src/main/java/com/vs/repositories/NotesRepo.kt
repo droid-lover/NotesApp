@@ -53,26 +53,32 @@ class NotesRepo : Repo() {
     }
 
     fun deleteNote(context: Context, note: Note) {
+        Log.d("ComingHere", "Inside_deleteNote ${note.id}")
+        _showProgressBar.postValue(true)
         disposables.add(Observable.fromCallable {
             NotesDatabase.getDatabase(context).notesDao().delete(note.id)
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
+                    _showProgressBar.postValue(false)
                 })
 
     }
 
 
-    fun updateNote(context: Context, note: Note) {
+    fun updateNote(context: Context, noteData: Note) {
+        Log.d("ComingHere", "Inside_updateNote ${noteData.id.toString() + " " + noteData.title + " " + noteData.description}")
         _showProgressBar.postValue(true)
-        disposables.add(
-                Observable.fromCallable {
-                    NotesDatabase.getDatabase(context).notesDao()
-                            .insert(Note(note.title, note.description))
-                }.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe()
-        )
+        disposables.add(Observable.fromCallable {
+            NotesDatabase.getDatabase(context).notesDao()
+                    .update(noteData.id, noteData.title, noteData.description)
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    _showProgressBar.postValue(false)
+
+                })
+
     }
 
     fun getNotes() {

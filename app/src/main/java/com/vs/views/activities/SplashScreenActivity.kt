@@ -29,7 +29,7 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        compositeDisposable.add(Observable.timer(100, TimeUnit.MILLISECONDS)
+        compositeDisposable.add(Observable.timer(0, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {

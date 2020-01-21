@@ -20,6 +20,7 @@ import com.vs.utils.Utils
 import com.vs.viewmodels.NotesViewModel
 import kotlinx.android.synthetic.main.fragment_notes_list.*
 import com.vs.utils.RxBus
+import com.vs.veronica.utils.C
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -42,13 +43,19 @@ class NotesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         notesViewModel.getNotes()
         observeViewModelChanges()
-        btnAddNote?.setOnClickListener { goToAddNoteScreen() }
+        btnAddNote?.setOnClickListener { goToAddNoteScreen(null) }
     }
 
-    private fun goToAddNoteScreen() {
+    private fun goToAddNoteScreen(note: Note?) {
+        val addNoteFragment = AddNoteFragment()
+        note?.also {
+            val bundle = Bundle()
+            bundle.putSerializable(C.NOTE, note)
+            addNoteFragment.arguments = bundle
+        }
         activity?.also {
             it.supportFragmentManager.beginTransaction()
-                    .add(R.id.rlContainer, AddNoteFragment()).addToBackStack("AddNoteFragment")
+                    .add(R.id.rlContainer, addNoteFragment).addToBackStack("AddNoteFragment")
                     .commitAllowingStateLoss()
         }
     }
@@ -58,7 +65,6 @@ class NotesListFragment : Fragment() {
         notesViewModel.notes?.observe(this,
                 Observer<List<Note>> { list ->
                     list?.let {
-                        Log.d("ComingHere", "InsideObserve ${list.size}")
                         setUpNotesList(list)
                     }
                 })
@@ -113,7 +119,7 @@ class NotesListFragment : Fragment() {
         val dialogBuilder = AlertDialog.Builder(activity!!)
         dialogBuilder.setMessage("Do you want to delete this Note?")
                 .setPositiveButton("Delete") { dialog, _ -> deleteNote(dialog, note) }
-                .setNegativeButton("Edit") { dialog, _ -> dialog.cancel() }
+                .setNegativeButton("Edit") { dialog, _ -> updateNote(dialog, note) }
 
         val alert = dialogBuilder.create()
         alert.setTitle("Perform Action")
@@ -123,5 +129,10 @@ class NotesListFragment : Fragment() {
     private fun deleteNote(dialog: DialogInterface, note: Note) {
         dialog.cancel()
         activity?.also { notesViewModel.deleteNote(it, note) }
+    }
+
+    private fun updateNote(dialog: DialogInterface, note: Note) {
+        dialog.cancel()
+        goToAddNoteScreen(note)
     }
 }

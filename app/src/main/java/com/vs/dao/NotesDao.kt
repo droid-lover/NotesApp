@@ -3,6 +3,8 @@ package com.vs.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.vs.models.Note
+import androidx.room.Update
+
 
 /**
  * Created By Sachin
@@ -13,14 +15,11 @@ interface NotesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(note: Note)
 
-    //
-//    @Delete
-//    fun delete(note: Note)
     @Query("DELETE FROM Note WHERE `id` =:id")
-    fun delete(id:Int)
+    fun delete(id: Int)
 
-    @Update
-    fun update(note: Note)
+    @Query("UPDATE Note SET title = :title,description=:description WHERE id = :id")
+    fun update(id: Int, title: String,description:String): Int
 
     @Query("Select * from Note")
     fun getAllNotes(): LiveData<List<Note>>
