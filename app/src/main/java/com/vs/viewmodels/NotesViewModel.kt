@@ -19,7 +19,7 @@ class NotesViewModel : ViewModel() {
     }
 
     fun addNote(context: Context, title: String, desc: String) = repo.addNote(context, title, desc)
-    fun getNotes(context: Context) = repo.getNotes(context)
+    fun getNotes() = repo.getNotes()
     fun deleteNote(context: Context, note: Note) = repo.deleteNote(context,note)
 //    fun getNotes() = repo.getNotes()
 //    fun getNotes() = repo.getNotes()

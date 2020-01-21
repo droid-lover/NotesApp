@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vs.R
@@ -18,9 +19,7 @@ import com.vs.utils.ItemOffsetDecoration
 import com.vs.utils.Utils
 import com.vs.viewmodels.NotesViewModel
 import kotlinx.android.synthetic.main.fragment_notes_list.*
-import com.vs.utils.Result
 import com.vs.utils.RxBus
-import com.vs.veronica.utils.C
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -28,7 +27,9 @@ import io.reactivex.disposables.CompositeDisposable
  */
 class NotesListFragment : Fragment() {
 
-    private val notesViewModel by lazy { ViewModelProviders.of(this).get(NotesViewModel::class.java) }
+    private val notesViewModel by lazy {
+        ViewModelProviders.of(this).get(NotesViewModel::class.java)
+    }
     private val compositeDisposable = CompositeDisposable()
     private var notesAdapter: NotesAdapter? = null
     private var notesData: ArrayList<Note> = ArrayList()
@@ -39,7 +40,7 @@ class NotesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        notesViewModel.getNotes(view.context)
+        notesViewModel.getNotes()
         observeViewModelChanges()
         btnAddNote?.setOnClickListener { goToAddNoteScreen() }
     }
@@ -53,35 +54,18 @@ class NotesListFragment : Fragment() {
     }
 
     private fun observeViewModelChanges() {
-        notesViewModel.notes.observe(this, androidx.lifecycle.Observer {
-            when (it) {
-                is Result.Success<List<Note>> -> {
-                    it.data.also { notes ->
-                        if (notes.isNullOrEmpty().not()) {
-                            notesData = ArrayList(notes)
-                            setUpNotesList()
-                        }
-                    }
-                }
-                is Result.Failure -> {
-                    Utils.showToastMessage("Something went wrong ${it.throwable.localizedMessage}")
-                }
-            }
-        })
 
-        notesViewModel.showProgressBar.observe(this, androidx.lifecycle.Observer
+        notesViewModel.notes?.observe(this,
+                Observer<List<Note>> { list ->
+                    list?.let {
+                        Log.d("ComingHere", "InsideObserve ${list.size}")
+                        setUpNotesList(list)
+                    }
+                })
+
+        notesViewModel.showProgressBar.observe(this, Observer
         { if (it) Utils.showProgressDialog(activity!!) else Utils.hideProgressDialog() })
 
-        compositeDisposable.add(RxBus.actionPerformed.subscribe {
-            if (it.action == C.ADD) {
-                if (it.note != null) notesData.add(it.note!!)
-                setUpNotesList()
-            } else if (it.action == C.DELETE) {
-                if (it.note != null) notesData.remove(it.note!!)
-                setUpNotesList()
-            }
-            notesAdapter?.notifyDataSetChanged()
-        })
 
         compositeDisposable.add(RxBus.showActionDailog.subscribe {
             performActions(it)
@@ -89,11 +73,11 @@ class NotesListFragment : Fragment() {
 
     }
 
-    private fun setUpNotesList() {
-        setOtherViewsVisibility(notesData.size)
+    private fun setUpNotesList(list: List<Note>) {
+        setOtherViewsVisibility(list.size)
         activity?.also {
-            if (notesData.size > 0) {
-                notesAdapter = NotesAdapter(it, notesData)
+            if (list.isNotEmpty()) {
+                notesAdapter = NotesAdapter(it, list)
                 rvNotes?.apply {
                     layoutManager = LinearLayoutManager(it)
                     adapter = notesAdapter
@@ -102,7 +86,6 @@ class NotesListFragment : Fragment() {
                     val spacing = resources.getDimensionPixelOffset(R.dimen.default_spacing_small)
                     rvNotes.addItemDecoration(ItemOffsetDecoration(spacing))
                 }
-                rvNotes?.startLayoutAnimation()
             }
         }
     }

@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.layout_note_item.view.*
 /**
  *  Created by Sachin
  */
-class NotesAdapter(private val context: Context, private val notes: ArrayList<Note>) :
+class NotesAdapter(private val context: Context, private val notes: List<Note>) :
         androidx.recyclerview.widget.RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

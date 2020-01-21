@@ -33,11 +33,10 @@
         android:id="@+id/rvNotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/notes_list_padding"
         android:layout_marginLeft="@dimen/notes_list_padding"
-        android:visibility="gone"
+        android:layout_marginRight="@dimen/notes_list_padding"
         android:paddingBottom="60dp"
-        android:layoutAnimation="@anim/layout_anim"/>
+        android:visibility="gone" />
 
 
     <Button
@@ -48,5 +47,6 @@
         android:background="@color/colorPrimary"
         android:text="@string/add_note"
         android:textColor="@color/white" />
+
 
 </RelativeLayout>
